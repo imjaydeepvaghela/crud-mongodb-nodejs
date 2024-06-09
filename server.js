@@ -1,85 +1,36 @@
+// Import required modules
+require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
-const Product = require('./Model/productModel');
-app.use(express.json())
+const cors = require('cors');
 
+// Initialize Express application
+const app = express();
 
-mongoose.connect('mongodb+srv://imjaydeepvaghela:admin123@devtaminapi.d20vwjn.mongodb.net/Node-API?retryWrites=true&w=majority&appName=DevtaminAPI')
-.then(() => {
-    app.listen(3000, ()=> {
-        console.log('App running on port 3000')
+// Import routes and middleware
+const productRoute = require('./routes/productRoute');
+const errorMiddleware = require('./middleware/errorMiddleware');
+
+// Middleware setup
+app.use(express.json()); // Parse incoming request bodies as JSON
+app.use(express.urlencoded({ extended: false })); // Parse URL-encoded bodies
+app.use(cors()); // Enable CORS for all routes
+app.use('/api/products', productRoute); // Set up product route
+app.use(errorMiddleware); // Error handling middleware
+
+// Configuration
+const MONGO_ENV = process.env.MONGO_ENV; // MongoDB connection string
+const PORT = process.env.PORT || 3000; // Port to run the server, default to 3000 if not specified in .env
+
+// Connect to MongoDB and start the server
+mongoose.connect(MONGO_ENV)
+    .then(() => {
+        // Start listening on the specified port
+        app.listen(PORT, () => {
+            console.log(`App running on port ${PORT}`);
+        });
+        console.log("Connected to MongoDB");
     })
-    console.log("Connected to MongoDB")
-})
-.catch((err)=> {
-    console.log(err);
-})
-
-
-// To add the product data using POST request
-app.post('/product', async(req, res) => {
-    try {
-        const product = await Product.create(req.body)
-        res.status(200).json(product);
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({message: error.message})
-    }
-})
-
-// To get the product data using GET request
-app.get('/product', async(req, res) => {
-    try {
-        const products = await Product.find({})
-        res.status(200).json(products);
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({message: error.message})
-    }
-})
-
-// To find the product data by ID
-app.get('/product/:id', async(req, res) => {
-    try {
-        const {id} = req.params;
-        const product = await Product.findById(id);
-        res.status(200).json(product);
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({message: error.message})
-    }
-})
-
-// To update the product data by ID
-app.put('/product/:id', async(req, res) => {
-    try {
-        const {id} = req.params;
-        const product = await Product.findByIdAndUpdate(id, req.body);
-        if (!product) {
-            return res.status(404).json({message: `Cannot find any product with ID ${id}`})
-        }
-        const updatedProduct = await Product.findById(id);
-        res.status(200).json(updatedProduct);
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({message: error.message})
-    }
-})
-
-// To delete the product data by ID
-app.delete('/product/:id', async(req, res) => {
-    try {
-        const {id} = req.params;
-        const product = await Product.findByIdAndDelete(id, req.body);
-        if (!product) {
-            return res.status(404).json({message: `Cannot find any product with ID ${id}`})
-        }
-        res.status(200).json({message: `The product named ${product.name} has been successfully deleted.`});
-    } 
-    catch (error) {
-        console.log(error.message);
-        res.status(500).json({message: error.message})
-    }
-})
-
+    .catch((err) => {
+        console.error("Error connecting to MongoDB:", err);
+    });
