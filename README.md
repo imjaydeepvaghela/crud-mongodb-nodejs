@@ -1,106 +1,92 @@
+
 # CRUD Application with Node.js, Express.js, and MongoDB
 
 This repository contains a full-featured CRUD (Create, Read, Update, Delete) application built using Node.js with the Express.js framework and MongoDB database. The application focuses on managing product data, allowing users to perform CRUD operations on product records seamlessly.
 
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Server Configuration (server.js)](#server-configuration-serverjs)
-   - [Initialization](#initialization)
-   - [Endpoints](#endpoints)
-   - [Error Handling](#error-handling)
-3. [Product Model (productModel.js)](#product-model-productmodeljs)
-   - [Model Schema](#model-schema)
-   - [Timestamps](#timestamps)
-   - [Exporting Model](#exporting-model)
-4. [Running the Application](#running-the-application)
-5. [Dependencies](#dependencies)
-
 ## Project Overview
 
-This project is a CRUD application that leverages Node.js, Express.js, and MongoDB to manage product data. Users can perform various operations on product records such as adding new products, retrieving existing products, updating product details, and deleting products.
+This project implements a CRUD application following the MVC (Model-View-Controller) architecture. It enables users to interact with product data stored in a MongoDB database through a set of RESTful API endpoints.
 
-## Server Configuration (server.js)
+## Architecture Overview
 
-### Initialization
-The server setup starts with importing the required modules and initializing the Express application.
+The project structure follows the MVC pattern:
 
-- **Modules Imported:**
-  - `express`: A minimal and flexible Node.js web application framework.
-  - `mongoose`: An ODM (Object Data Modeling) library for MongoDB and Node.js.
+- **Model**: Defines the data structure and schema for products.
+- **Controller**: Contains the logic for handling requests and interacting with the model.
+- **Routes**: Defines the endpoints and routes for the application.
+- **Middleware**: Custom middleware for error handling and request parsing.
 
-- **Express Application:**
-  An instance of the Express application is created.
+## Server Configuration
 
-- **MongoDB Connection:**
-  The connection to MongoDB is established using a connection string. This ensures the application is ready to interact with the database.
+The server setup involves initializing the Express application, setting up middleware, and establishing a connection to MongoDB.
 
-### Endpoints
-The application provides RESTful endpoints for managing product data.
+## User Authentication with JWT
 
-- **POST /product:**
-  - Description: Adds new product data.
-  - Request: Product data is sent in the request body.
-  - Response: The new product is stored in the MongoDB database.
+This Node.js application provides user registration and role-based authentication using JSON Web Tokens (JWT) and MongoDB.
 
-- **GET /product:**
-  - Description: Retrieves all product data.
-  - Response: Returns all product records as a JSON array.
+### Features
 
-- **GET /product/:id:**
-  - Description: Retrieves product data by its unique ID.
-  - Response: Returns the product record with the specified ID.
+#### User Roles
 
-- **PUT /product/:id:**
-  - Description: Updates existing product data based on its ID.
-  - Request: Updated product data is sent in the request body.
-  - Response: Updates the product record in the database.
+- **Admin**: Can manage users and update roles.
+- **Basic**: Regular user with limited access.
 
-- **DELETE /product/:id:**
-  - Description: Deletes product data based on its ID.
-  - Response: Removes the product record from the database.
+#### JWT Authentication
 
-### Error Handling
-Error handling is robustly implemented for each endpoint to ensure any potential errors are caught and managed effectively.
+- **Register**: Hashes passwords using bcrypt, generates a JWT token, and sets it as an HTTP-only cookie.
+- **Login**: Authenticates users by comparing hashed passwords, generates a JWT token, and sends it as an HTTP-only cookie.
 
-- **Error Logging:** Errors are logged to the console for debugging purposes.
-- **Error Responses:** Appropriate error responses with status codes are sent back to the client to inform them of any issues.
+#### Role-Based Access Control
 
-## Product Model (productModel.js)
+- **Admin Authentication**: Middleware to protect routes and allow access only to users with an "admin" role.
+- **User Authentication**: Middleware to allow access only to users with a "Basic" role.
 
-### Model Schema
-The schema for the product data is defined using Mongoose in `productModel.js`.
+### CRUD Operations
 
-- **Fields:**
-  - `name`: Required field of type String.
-  - `quantity`: Required field of type Number with a default value of 0.
-  - `price`: Required field of type Number.
-  - `image`: Optional field of type String.
+- **Register**: Create new users.
+- **Login**: Authenticate and log in users.
+- **Update**: Change a user's role (restricted to admins).
+- **Delete**: Remove a user from the database (restricted to admins).
 
-### Timestamps
-The schema includes a timestamps option set to `true`, which automatically adds `createdAt` and `updatedAt` fields to each document. These fields track the creation and update times of each product record.
+### Middleware
 
-### Exporting Model
-The Product model is created using `mongoose.model()` with the defined schema and is exported for use in other parts of the application.
+- **Authentication Middleware**: Verifies JWT tokens and checks user roles for protected routes.
+
+## Product Model
+
+The model defines the schema for product data using Mongoose. It includes fields such as name, quantity, price, and image.
+
+## Product Controller
+
+The controller contains the logic for CRUD operations on product data. It includes functions to fetch all products, get a product by ID, add a new product, update a product, and delete a product.
+
+## Product Routes
+
+The routes file defines the endpoints for product-related operations. It maps HTTP methods to controller functions for handling requests.
+
+## Error Handling Middleware
+
+The error handling middleware ensures that errors are caught and managed effectively. It logs errors and sends appropriate error responses to clients.
 
 ## Running the Application
 
-To run the application, follow these steps:
+To run the application:
 
 1. Ensure MongoDB is installed, running, and accessible.
 2. Install the required dependencies using `npm install`.
 3. Start the server with the command `node server.js`.
-4. The application listens on port 3000 by default.
 
-```bash
-npm install
-node server.js
-```
+The application listens on port 3000 by default.
 
 ## Dependencies
+
 The application relies on the following dependencies:
 
-- `express`: For building the web server and handling routing.
-- `mongoose`: For interacting with MongoDB and defining the data schema.
-- `body-parser`: To parse incoming request bodies in a middleware before your handlers, available under the `req.body` property (ensure it's added if not mentioned).
-
-By providing detailed information on the structure and functionality of the server and the product model, this README offers a comprehensive guide to understanding and running the CRUD application.
+- `express`
+- `mongoose`
+- `cors`
+- `dotenv`
+- `express-async-handler`
+- `bcryptjs`
+- `jsonwebtoken`
+- `cookie-parser`
