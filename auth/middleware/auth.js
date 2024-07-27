@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const jwtSecret = "447a404cee8bbfcd58d5855a539c5881705f99966025ffd9835ced96eaf3fb8091f84f";
+const jwtSecret = "mySecretJwtTokenString";
+// 447a404cee8bbfcd58d5855a539c5881705f99966025ffd9835ced96eaf3fb8091f84f
 
 // Admin Authentication : Authenticate admin before granting them access to the route
 exports.adminAuth = (req, res, next) => {
@@ -44,4 +45,4 @@ exports.userAuth = (req, res, next) => {
         .status(401)
         .json({ message: "Not authorized, token not available" })
     }
-}
+  }
