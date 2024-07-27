@@ -54,3 +54,29 @@ The application relies on the following dependencies:
 - `mongoose`
 - `cors`
 - `express-async-handler`
+
+User Authentication with JWT
+This Node.js application provides user registration and role-based authentication using JSON Web Tokens (JWT) and MongoDB.
+
+Features
+User Roles:
+
+Admin: Can manage users and update roles.
+Basic: Regular user with limited access.
+JWT Authentication:
+
+Register: Hashes passwords using bcrypt, generates a JWT token, and sets it as an HTTP-only cookie.
+Login: Authenticates users by comparing hashed passwords, generates a JWT token, and sends it as an HTTP-only cookie.
+Role-Based Access Control:
+
+Admin Authentication: Middleware to protect routes and allow access only to users with an "admin" role.
+User Authentication: Middleware to allow access only to users with a "Basic" role.
+CRUD Operations:
+
+Register: Create new users.
+Login: Authenticate and log in users.
+Update: Change a user's role (restricted to admins).
+Delete: Remove a user from the database (restricted to admins).
+Middleware:
+
+Authentication Middleware: Verifies JWT tokens and checks user roles for protected routes.
