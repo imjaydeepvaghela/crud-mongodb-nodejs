@@ -1,4 +1,4 @@
-```markdown
+
 # CRUD Application with Node.js, Express.js, and MongoDB
 
 This repository contains a full-featured CRUD (Create, Read, Update, Delete) application built using Node.js with the Express.js framework and MongoDB database. The application focuses on managing product data, allowing users to perform CRUD operations on product records seamlessly.
@@ -87,4 +87,3 @@ This Node.js application provides user registration and role-based authenticatio
 ### Middleware
 
 - **Authentication Middleware**: Verifies JWT tokens and checks user roles for protected routes.
-```
