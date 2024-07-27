@@ -20,42 +20,6 @@ The project structure follows the MVC pattern:
 
 The server setup involves initializing the Express application, setting up middleware, and establishing a connection to MongoDB.
 
-## Product Model
-
-The model defines the schema for product data using Mongoose. It includes fields such as name, quantity, price, and image.
-
-## Product Controller
-
-The controller contains the logic for CRUD operations on product data. It includes functions to fetch all products, get a product by ID, add a new product, update a product, and delete a product.
-
-## Product Routes
-
-The routes file defines the endpoints for product-related operations. It maps HTTP methods to controller functions for handling requests.
-
-## Error Handling Middleware
-
-The error handling middleware ensures that errors are caught and managed effectively. It logs errors and sends appropriate error responses to clients.
-
-## Running the Application
-
-To run the application:
-
-1. Ensure MongoDB is installed, running, and accessible.
-2. Install the required dependencies using `npm install`.
-3. Start the server with the command `node server.js`.
-
-The application listens on port 3000 by default.
-
-## Dependencies
-
-The application relies on the following dependencies:
-
-- `dotenv`
-- `express`
-- `mongoose`
-- `cors`
-- `express-async-handler`
-
 ## User Authentication with JWT
 
 This Node.js application provides user registration and role-based authentication using JSON Web Tokens (JWT) and MongoDB.
@@ -87,3 +51,42 @@ This Node.js application provides user registration and role-based authenticatio
 ### Middleware
 
 - **Authentication Middleware**: Verifies JWT tokens and checks user roles for protected routes.
+
+## Product Model
+
+The model defines the schema for product data using Mongoose. It includes fields such as name, quantity, price, and image.
+
+## Product Controller
+
+The controller contains the logic for CRUD operations on product data. It includes functions to fetch all products, get a product by ID, add a new product, update a product, and delete a product.
+
+## Product Routes
+
+The routes file defines the endpoints for product-related operations. It maps HTTP methods to controller functions for handling requests.
+
+## Error Handling Middleware
+
+The error handling middleware ensures that errors are caught and managed effectively. It logs errors and sends appropriate error responses to clients.
+
+## Running the Application
+
+To run the application:
+
+1. Ensure MongoDB is installed, running, and accessible.
+2. Install the required dependencies using `npm install`.
+3. Start the server with the command `node server.js`.
+
+The application listens on port 3000 by default.
+
+## Dependencies
+
+The application relies on the following dependencies:
+
+- `express`
+- `mongoose`
+- `cors`
+- `dotenv`
+- `express-async-handler`
+- `bcryptjs`
+- `jsonwebtoken`
+- `cookie-parser`
